@@ -41,9 +41,9 @@ GOLD MINE is a game for one player. Players will control miniature miners who tr
 
 ## Features
 
-### Randomly generate maps
+### Read maps
 
-The program will generate a random map when a ground start, which will make sure 
+The program will read a map from the given directory when a ground start, and will make sure the goal can be reached. 
 
 ### print_map
 
