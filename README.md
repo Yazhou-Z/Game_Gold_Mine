@@ -44,7 +44,8 @@ GOLD MINE is a game for one player. Players will control miniature miners who tr
 ### Randomly generate maps
 
 The program will generate a random map when a ground start, which will make sure 
-### print_map()
+
+### print_map
 
 ```cpp
 //funtion: print the map
@@ -52,20 +53,18 @@ The program will generate a random map when a ground start, which will make sure
 void print_map()
 ```
 
-### timer()
+### timer
 
 ```cpp
 ///funtion: 
 void time()
 ```
 
+### reset_new_map
 
-### reset_new_map()
+### calculate_reward
 
+### game_over_or_not
 
-
-### calculate_reward()
-
-### game_over_or_not()
 
 
