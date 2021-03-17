@@ -42,11 +42,7 @@ GOLD MINE player will be the miner to collect treasure and earn money. Player wi
 
 ## Features
 
-### print_map()
+### Randomly generate maps
 
-```cpp
-//funtion: print the map
-//output: map
-void print_map()
-```
+
 
