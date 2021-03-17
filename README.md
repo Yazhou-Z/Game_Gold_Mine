@@ -8,11 +8,10 @@
 
 ## game_description
 
-"Long long ago, there was a man, flawed and having his back to the wall. The only thing in his bag was a claw and a string.
+"Long long ago, there was a man, flawed and having his back to the wall. The only thing in his bag was a claw and a string. Fortunately, he found a mystery place. Instead of several stones, gold, diamond and something unknown was under the ground."
 
-Fortunately, he found a mystery place. Instead of several stones, gold, diamond and something unknown was under the ground."
+GOLD MINE is a game for one player. Players will control miniature miners who traverse the mine collecting gold. Players will face several rounds one by one. Each round, players will get 60 seconds to mine and make money. Only when they achieve a specific goal will they get access to enter the next round.
 
-GOLD MINE players will be the miner to collect treasure and earn money. Players will face several rounds one by one. Each round, players will get 60 seconds to mine and make money. Only when they achieve a specific goal will they get access to enter the next round.
 
 ## Game_rules
 
