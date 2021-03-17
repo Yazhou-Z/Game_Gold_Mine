@@ -6,17 +6,17 @@
 
 **Li Zicheng** 3035772157
 
-## Game_description
+## game_description
 
 "Long long ago, there was a man, flawed and having his back to the wall. The only thing in his bag was a claw and a string.
+
 Fortunately, he found a mystery place. Instead of several stones, gold, diamond and something unknown was under the ground."
 
-GOLD MINE player will be the miner to collect treasure and earn money. Player will face round one by one. When the time is out and player donot get the dimanded
-
+GOLD MINE players will be the miner to collect treasure and earn money. Players will face several rounds one by one. Each round, players will get 60 seconds to mine and make money. Only when they achieve a specific goal will they get access to enter the next round.
 
 ## Game_rules
 
-1.Press [space] to shoot your claw
+1.Press `[space]` to shoot your claw
 
 2.If you successfully grab something, the claw will drag back the object, if not, it will return when brush up against the wall
 
