@@ -44,5 +44,5 @@ GOLD MINE players will be the miner to collect treasure and earn money. Players 
 
 ### Randomly generate maps
 
-
+The program will generate a random map when a ground start, which will make sure 
 
