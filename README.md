@@ -41,9 +41,9 @@ GOLD MINE is a game for one player. Players will control miniature miners who tr
 
 ## Features
 
-### Read maps
+### Set maps
 
-The program will read a map from the given directory when a ground start, and will make sure the goal can be reached. 
+The program will read a map from the given directory when a ground start, which will make sure the goal can be reached. The map will refresh 20 times a second to guarantee the player can have more ankle choices 
 
 ### claw_statement
 
