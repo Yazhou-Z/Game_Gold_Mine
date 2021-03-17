@@ -45,6 +45,18 @@ GOLD MINE is a game for one player. Players will control miniature miners who tr
 
 The program will read a map from the given directory when a ground start, and will make sure the goal can be reached. 
 
+### claw_statement
+
+record the statement of the claw
+
+| name      | type   | range        |
+| --------- | ------ | ------------ |
+| speed     | int    | 1 - 5        |
+| x         | double | map_length_x |
+| y         | double | map_length_y |
+| direction | double | 0 - pi       |
+
+
 ### print_map
 
 ```cpp
@@ -59,8 +71,6 @@ void print_map()
 ///funtion: 
 void time()
 ```
-
-### reset_new_map
 
 ### calculate_reward
 
