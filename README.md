@@ -23,12 +23,18 @@ GOLD MINE player will be the miner to collect treasure and earn money. Player wi
 3.The larger the object is, the longer it will take to drag it back, also the more money it will make
 
 4.Price and speed of the objects: 
-  small stone: 1$, quickly
-  large stone: 20$, slowly
-  small gold: 50$, quickly
-  gole of middiem size: 100$, slowly
-  large gold: 500$, very slowly
-  diamond: 600$, very quickly
+  
+  small stone: $1, quickly
+  
+  large stone: $20, slowly
+  
+  small gold: $50, quickly
+  
+  gold of middiem size: $100, slowly
+  
+  large gold: $500, very slowly
+  
+  diamond: $600, very quickly
   
 5.If you grab TNTs, it will destroy all surrounding objects and turn into a TNT piece values $5
 
