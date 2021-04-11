@@ -35,6 +35,12 @@ void print_Map()
                 printf(" ");
             else if (map[i][j] == 1)
                 printf("#");
+            else if (map[i][j] == 7)
+                printf("s");
+            else if (map[i][j] == 8)
+                printf("g");
+            else if (map[i][j] == 9)
+                printf("d");
         }
         printf("\n");
     }
