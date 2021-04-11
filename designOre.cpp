@@ -2,10 +2,6 @@
 #include <string>
 using namespace std;
 
-#include <iostream>
-#include <string>
-using namespace std;
-
 const int MAX = 10;
 
 struct Golds_ret {
@@ -33,18 +29,19 @@ void designGolds(){
 }
 
 void initGolds(){
+ int map[60][70];
  for (int i = 0; i < 10; i++){
      if (gold[i].size == 'M'){
-         for (int p = -1; p < 2; p++){
-             for (int q = -1; q < 2; q++){
+         for (int p = 0; p < 2; p++){
+             for (int q = 0; q < 2; q++){
                  if (gold[i].type == 's') map[gold[i + p].x][gold[i + q].y] = 7;
                  if (gold[i].type == 'g') map[gold[i + p].x][gold[i + q].y] = 8;
              }
          }
      }
      if (gold[i].size == 'L') {
-         for (int p = -2; p < 3; p++){
-             for (int q = -2; q < 3; q++){
+         for (int p = 0; p < 3; p++){
+             for (int q = 0; q < 3; q++){
                  if (gold[i].type == 's') map[gold[i + p].x][gold[i + q].y] = 7;
                  if (gold[i].type == 'g') map[gold[i + p].x][gold[i + q].y] = 8;
              }
