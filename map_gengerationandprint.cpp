@@ -46,6 +46,14 @@ void print_Map()
                 printf(" ");
             else if (map[i][j] == 1)
                 printf("#");
+            else if (map[i][j] == 2)
+                printf("o");
+            else if (map[i][j] == 3)
+                printf("/");
+            else if (map[i][j] == 4)
+                printf("|");
+            else if (map[i][j] == 5)
+                printf("\\"); 
             else if (map[i][j] == 7)
                 printf("s");
             else if (map[i][j] == 8)
