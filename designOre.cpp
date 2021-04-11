@@ -21,36 +21,39 @@ void designGolds(){
         else if (i < 9) gold[i].size = 'L';
         else {
             gold[i].type = 'd';
-            gold[i].type = 's';
+            gold[i].size = 's';
         }
-        gold[i].x = 6 * i + i % 2 * 3;
-        gold[i].y = i % 3 * 14 + i % 2 * 15 + 10;
+        gold[i].x = 4 * i + i % 2 * 3 + 11;
+        gold[i].y = i % 3 * 17 + i % 2 * 15 + 15;
    }
 }
 
 void initGolds(){
- int map[60][70];
  for (int i = 0; i < 10; i++){
      if (gold[i].size == 'M'){
-         for (int p = 0; p < 2; p++){
-             for (int q = 0; q < 2; q++){
-                 if (gold[i].type == 's') map[gold[i + p].x][gold[i + q].y] = 7;
-                 if (gold[i].type == 'g') map[gold[i + p].x][gold[i + q].y] = 8;
+         for (int p = 0; p < 3; p++){
+             for (int q = 0; q < 3; q++){
+                 if (gold[i].type == 's') map[gold[i].x + p][gold[i].y + q] = 7;
+                 if (gold[i].type == 'g') map[gold[i].x + p][gold[i].y + q] = 8;
              }
          }
      }
      if (gold[i].size == 'L') {
-         for (int p = 0; p < 3; p++){
-             for (int q = 0; q < 3; q++){
-                 if (gold[i].type == 's') map[gold[i + p].x][gold[i + q].y] = 7;
-                 if (gold[i].type == 'g') map[gold[i + p].x][gold[i + q].y] = 8;
+         for (int p = 0; p < 5; p++){
+             for (int q = 0; q < 5; q++){
+                 if (gold[i].type == 's') map[gold[i].x + p][gold[i].y + q] = 7;
+                 if (gold[i].type == 'g') map[gold[i].x + p][gold[i].y + q] = 8;
              }
          }
      }
      else{
-         if (gold[i].type == 's') map[gold[i].x][gold[i].y] = 7;
-         if (gold[i].type == 'g') map[gold[i].x][gold[i].y] = 8;
-         if (gold[i].type == 'd') map[gold[i].x][gold[i].y] = 9;
+         for (int p = 0; p < 2; p++){
+             for (int q = 0; q < 2; q++){
+                if (gold[i].type == 's') map[gold[i].x + p][gold[i].y+ q] = 7;
+                if (gold[i].type == 'g') map[gold[i].x + p][gold[i].y+ q] = 8;
+                if (gold[i].type == 'd') map[gold[i].x + p][gold[i].y+ q] = 9;
+             }
+         }
      }
  }
 }
