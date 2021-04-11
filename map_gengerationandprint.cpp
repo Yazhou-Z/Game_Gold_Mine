@@ -5,7 +5,7 @@
 using namespace std;
 
 int map[60][70];
-int miner_x[7], miner_y[7];
+int miner_x, miner_y;
 string hook_x, hook_y;
 int hookx[70], hooky[70];
 
@@ -27,13 +27,12 @@ void generate_Map()
 
 void generate_miner()
 {
-    map[miner_x[0]][miner_y[0]] = 2;
-    map[miner_x[1]][miner_y[1]] = 3;
-    map[miner_x[2]][miner_y[2]] = 4;
-    map[miner_x[3]][miner_y[3]] = 5;
-    map[miner_x[4]][miner_y[4]] = 4;
-    map[miner_x[5]][miner_y[5]] = 3;
-    map[miner_x[6]][miner_y[6]] = 5;
+    map[miner_x][miner_y] = 2;
+    map[miner_x+1][miner_y-1] = 3;
+    map[miner_x+1][miner_y] = 4;
+    map[miner_x+1][miner_y+1] = 5;
+    map[miner_x+2][miner_y-1] = 3;
+    map[miner_x+2][miner_y+1] = 5;
 }
 
 void print_Map()
@@ -66,6 +65,8 @@ void print_Map()
 }
 
 int main(){
+    miner_x = 6;
+    miner_y = 5;
     generate_Map();
     print_Map();
     return 0;
