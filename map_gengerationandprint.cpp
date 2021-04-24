@@ -6,8 +6,16 @@ using namespace std;
 
 int map[60][70];
 int miner_x, miner_y;
-string hook_x, hook_y;
-int hookx[70], hooky[70];
+
+struct miner_hook{
+    int miner_x;
+    int miner_y;
+    int hook_length;
+    int hook_line_x[70];
+    int hook_line_y[70];
+    int hook_catcher_x[3];
+    int hook_catcher_y[3];
+};
 
 void generate_Map()
 {
@@ -25,14 +33,38 @@ void generate_Map()
     }
 }
 
-void generate_miner()
+void generate_miner(int x, int y, miner_hook &m){
+    m.miner_x = x;
+    m.miner_y = y;
+    int l = m.hook_length;
+    m.hook_line_x[0] = x+1;
+    m.hook_line_y[0] = y-2;
+    for(int i = 1; i < l; i++){
+        m.hook_line_x[i] = m.hook_line_x[i-1]+1;
+        m.hook_line_y[i] = m.hook_line_y[i-1];
+    }
+    m.hook_catcher_x[1] = m.hook_line_x[l-1]+1;
+    m.hook_catcher_y[1] = m.hook_line_y[l-1];
+    m.hook_catcher_x[0] = m.hook_catcher_x[1];
+    m.hook_catcher_y[0] = m.hook_catcher_y[1]-1;
+    m.hook_catcher_x[2] = m.hook_catcher_x[1];
+    m.hook_catcher_y[2] = m.hook_catcher_y[1]+1;
+}
+
+void miner_tomap(miner_hook m)
 {
-    map[miner_x][miner_y] = 2;
-    map[miner_x+1][miner_y-1] = 3;
-    map[miner_x+1][miner_y] = 4;
-    map[miner_x+1][miner_y+1] = 5;
-    map[miner_x+2][miner_y-1] = 3;
-    map[miner_x+2][miner_y+1] = 5;
+    map[m.miner_x][m.miner_y] = 2;
+    map[m.miner_x + 1][m.miner_y - 1] = 3;
+    map[m.miner_x + 1][m.miner_y] = 4;
+    map[m.miner_x + 1][m.miner_y + 1] = 5;
+    map[m.miner_x + 2][m.miner_y - 1] = 3;
+    map[m.miner_x + 2][m.miner_y + 1] = 5;
+    for (int i = 0; i < m.hook_length; i++){
+        map[m.hook_line_x[i]][m.hook_line_y[i]] = 4;
+    }
+    map[m.hook_catcher_x[0]][m.hook_catcher_y[0]] = 3;
+    map[m.hook_catcher_x[1]][m.hook_catcher_y[1]] = 4;
+    map[m.hook_catcher_x[2]][m.hook_catcher_y[2]] = 5;
 }
 
 void print_Map()
@@ -52,7 +84,7 @@ void print_Map()
             else if (map[i][j] == 4)
                 printf("|");
             else if (map[i][j] == 5)
-                printf("\\"); 
+                printf("\\");
             else if (map[i][j] == 7)
                 printf("s");
             else if (map[i][j] == 8)
@@ -64,10 +96,13 @@ void print_Map()
     }
 }
 
-int main(){
-    miner_x = 6;
-    miner_y = 5;
+int main()
+{
+    miner_hook m;
+    m.hook_length = 2;
     generate_Map();
+    generate_miner(6,6,m);
+    miner_tomap(m);
     print_Map();
     return 0;
 }
