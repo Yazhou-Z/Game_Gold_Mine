@@ -137,7 +137,7 @@ int move_ore(miner_hook & m){
 }
 
 // hock downward, upward
-int move_hock_down_up(miner_hook & m){
+int move_hock_down_up(miner_hook & m, WINDOW * &win){
     int num;
     char check = check_hock(m);
 
@@ -146,7 +146,7 @@ int move_hock_down_up(miner_hook & m){
         m.x = 3 + m.x;
         epoch ++;
         change_Map(m);
-        print_Map();
+        print_Map(win);
         check = check_hock(m);
     }
 
@@ -155,24 +155,24 @@ int move_hock_down_up(miner_hook & m){
         num = move_ore(m);
         change_Map(m);
         epoch ++;
-        print_Map();
+        print_Map(win);
     }
     return num;
 }
 
 // move miner horizontally
-void move_miner(miner_hook & m){
+void move_miner(miner_hook & m, WINDOW * &win){
     if (m.miner_y == 57) {
         m.miner_y = 4;
         epoch ++;
         change_Map(m);
-        print_Map();
+        print_Map(win);
     }
     else{
         m.miner_y ++;
         epoch ++;
         change_Map(m);
-        print_Map();
+        print_Map(win);
     }
 }
 
@@ -193,20 +193,24 @@ int calculate_reward(int num){
     return type * size;
 }
 
-void play(bool get, miner_hook &m) {
+void play(bool get, miner_hook &m, WINDOW *&win) {
     while (not get) {
-        move_miner(m);
+        move_miner(m,win);
     }
-    int num = move_hock_down_up(m);
+    int num = move_hock_down_up(m,win);
     reward = calculate_reward(num) + reward;
 }
 
 int main(){
+    initscr();
+    WINDOW *win = newwin(60, 70, 0, 0);
+    refresh();
+    box(win,0,0);
     miner_hook m;
     while (epoch != 10000){
         bool get;
-        init_miner_hock(m);
-        play(get, m);
+        init_miner_hock(m,win);
+        play(get, m, win);
     }
     /*
     GAME OVER
