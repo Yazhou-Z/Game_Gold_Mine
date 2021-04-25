@@ -97,6 +97,41 @@ void miner_tomap(miner_hook m)
 }
 
 
+void generate_Map()
+{
+    for (int i = 0; i < 60; i++)
+    {
+        for (int j = 0; j < 70; j++)
+        {
+            if (i == 0 || i == 9 || i == 59)
+                map[i][j] = 1;
+            else if (j == 0 || j == 69)
+                map[i][j] = 1;
+            else
+                map[i][j] = 0;
+        }
+    }
+}
+
+void generate_miner(int x, int y, miner_hook &m)
+{
+    m.miner_x = x;
+    m.miner_y = y;
+    int l = m.hook_length;
+    m.hook_line_x[0] = x+1;
+    m.hook_line_y[0] = y-2;
+    for(int i = 1; i < l; i++){
+        m.hook_line_x[i] = m.hook_line_x[i-1]+1;
+        m.hook_line_y[i] = m.hook_line_y[i-1];
+    }
+    m.hook_catcher_x[1] = m.hook_line_x[l-1]+1;
+    m.hook_catcher_y[1] = m.hook_line_y[l-1];
+    m.hook_catcher_x[0] = m.hook_catcher_x[1];
+    m.hook_catcher_y[0] = m.hook_catcher_y[1]-1;
+    m.hook_catcher_x[2] = m.hook_catcher_x[1];
+    m.hook_catcher_y[2] = m.hook_catcher_y[1]+1;
+}
+
 void print_Map(WINDOW *&win)
 {
     wmove(win, 0, 0);
