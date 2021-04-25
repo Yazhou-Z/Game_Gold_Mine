@@ -75,11 +75,91 @@ struct miner_hook{
 };
 
 // Map
-void change_Map(miner_hook &m);
+void change_Map(miner_hook &m){
+    m.hook_length += m.x - m.hook_catcher_x[1];
+    generate_miner(m.miner_x,m.miner_y,m);
+};
 
-void init_miner_hock(miner_hook &m);
+void miner_tomap(miner_hook m)
+{
+    map[m.miner_x][m.miner_y] = 2;
+    map[m.miner_x + 1][m.miner_y - 1] = 3;
+    map[m.miner_x + 1][m.miner_y] = 4;
+    map[m.miner_x + 1][m.miner_y + 1] = 5;
+    map[m.miner_x + 2][m.miner_y - 1] = 3;
+    map[m.miner_x + 2][m.miner_y + 1] = 5;
+    for (int i = 0; i < m.hook_length; i++){
+        map[m.hook_line_x[i]][m.hook_line_y[i]] = 4;
+    }
+    map[m.hook_catcher_x[0]][m.hook_catcher_y[0]] = 3;
+    map[m.hook_catcher_x[1]][m.hook_catcher_y[1]] = 4;
+    map[m.hook_catcher_x[2]][m.hook_catcher_y[2]] = 5;
+}
 
-void print_Map();
+
+void print_Map(WINDOW *&win)
+{
+    wmove(win, 0, 0);
+    for (int i = 0; i < 60; i++)
+    {
+        for (int j = 0; j < 70; j++)
+        {
+            if (map[i][j] == 0)
+            {
+                wmove(win, i, j);
+                waddch(win, 32);
+            }
+            else if (map[i][j] == 1)
+            {
+                wmove(win, i, j);
+                waddch(win, 35);
+            }
+            else if (map[i][j] == 2)
+            {
+                wmove(win, i, j);
+                waddch(win, 111);
+            }
+            else if (map[i][j] == 3)
+            {
+                wmove(win, i, j);
+                waddch(win, 47);
+            }
+            else if (map[i][j] == 4)
+            {
+                wmove(win, i, j);
+                waddch(win, 124);
+            }
+            else if (map[i][j] == 5)
+            {
+                wmove(win, i, j);
+                waddch(win, 92);
+            }
+            else if (map[i][j] == 7)
+            {
+                wmove(win, i, j);
+                waddch(win, 115);
+            }
+            else if (map[i][j] == 8)
+            {
+                wmove(win, i, j);
+                waddch(win, 103);
+            }
+            else if (map[i][j] == 9)
+            {
+                wmove(win, i, j);
+                waddch(win, 100);
+            }
+        }
+    }
+    wrefresh(win);
+}
+
+void init_miner_hock(miner_hook &m){
+    generate_Map();
+    generate_Miner(6,4,m);
+    miner_tomap(m);
+    print_Map(win);
+}
 
 // 确定钩子是触到矿石还是触到墙壁
 char check_hock(miner_hook & m){
