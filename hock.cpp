@@ -15,6 +15,8 @@ struct miner_hook{
     int hook_line_y[70];
     int hook_catcher_x[3];
     int hook_catcher_y[3];
+    int x;
+    int y;
 };
 
 // 确定钩子是触到矿石还是触到墙壁
@@ -28,13 +30,16 @@ char check_hock(int x, int y){
     return ore;
 }
 
-void generate_hook();
+// 
+void generate_hock(int x, int y);
 
 void print_Map();
 
+void generate_miner(int x, int y);
+
 // 钩子绑定矿石返回，移动矿石坐标，移动钩子
 // speed: empty: 6; small: 5; Medium: 3; Large: 1
-void move_ore(int x, int y){
+int move_ore(int x, int y){
     char ore = check_hock(x,y);
     int num;
 
@@ -72,31 +77,59 @@ void move_ore(int x, int y){
         gold[num].x = gold[num].x - 5;
     }
     
-    // get reward
+    return num;
 
 }
 
-void move_hock_miner(int x, int y, bool get){
-
+// hock downward, upward
+int move_hock_down_up(int x, int y){
+    int num;
     char check = check_hock(x, y);
     
     // hock downward
-    while (get && check == '0'){
+    while (check == '0'){
         x ++;
         epoch ++;
-        generate_hook();
+        generate_hock(x, y);
         print_Map();
         check = check_hock(x, y);
     }
 
     // hock upward
-    while (x != 30){
-        move_ore(x, y);
+    while (x != 9){
+        num = move_ore(x, y);
         epoch ++;
         print_Map();
     }
-
+    return num;
 }
 
+// move miner horizontally
+void move_miner(miner_hook &m){
+    if (m.miner_y == 57) {
+        m.miner_y = 4;
+        epoch ++;
+        generate_miner(m.miner_x, m.miner_y);
+        generate_hock(m.x, m.y);
+        print_Map();
+    }
+    else{
+        m.miner_y ++;
+        epoch ++;
+        generate_miner(m.miner_x, m.miner_y);
+        generate_hock(m.x, m.y);
+        print_Map();
+    }
+}
 
+int calculate_reward(int num){
+    
+}
 
+void play(bool get, miner_hook &m) {
+    while (not get) {
+        move_miner(m);
+    }
+    move_hock_down_up(m.x, m.y);
+    
+}
