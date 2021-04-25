@@ -2,10 +2,66 @@
 #include <string>
 using namespace std;
 
+const int MAX = 10;
 int map[60][70];
 int time = 0;
 int epoch = 0;
 int reward = 0;
+
+struct Golds_ret {
+    int x, y;
+    char size;
+    char type;
+};
+
+Golds_ret gold[MAX];
+
+void designGolds(){
+    for (int i = 0; i < 10; i++) {
+        if (i % 2) gold[i].type = 'g';
+        else gold[i].type = 's';
+        if (i < 3) gold[i].size = 'S';
+        else if (i < 6) gold[i].size = 'M';
+        else if (i < 9) gold[i].size = 'L';
+        else {
+            gold[i].type = 'd';
+            gold[i].size = 's';
+        }
+        gold[i].x = 4 * i + i % 2 * 3 + 11;
+        gold[i].y = i % 3 * 17 + i % 2 * 15 + 15;
+   }
+}
+
+void initGolds(){
+ for (int i = 0; i < 10; i++){
+     if (gold[i].size == 'M'){
+         for (int p = 0; p < 3; p++){
+             for (int q = 0; q < 3; q++){
+                 if (gold[i].type == 's') map[gold[i].x + p][gold[i].y + q] = 7;
+                 if (gold[i].type == 'g') map[gold[i].x + p][gold[i].y + q] = 8;
+             }
+         }
+     }
+     if (gold[i].size == 'L') {
+         for (int p = 0; p < 5; p++){
+             for (int q = 0; q < 5; q++){
+                 if (gold[i].type == 's') map[gold[i].x + p][gold[i].y + q] = 7;
+                 if (gold[i].type == 'g') map[gold[i].x + p][gold[i].y + q] = 8;
+             }
+         }
+     }
+     else{
+         for (int p = 0; p < 2; p++){
+             for (int q = 0; q < 2; q++){
+                if (gold[i].type == 's') map[gold[i].x + p][gold[i].y+ q] = 7;
+                if (gold[i].type == 'g') map[gold[i].x + p][gold[i].y+ q] = 8;
+                if (gold[i].type == 'd') map[gold[i].x + p][gold[i].y+ q] = 9;
+             }
+         }
+     }
+ }
+}
+
 
 struct miner_hook{
     int miner_x;
@@ -19,10 +75,11 @@ struct miner_hook{
     int y;
 };
 
+void init_miner_hock();
+
 // 确定钩子是触到矿石还是触到墙壁
 char check_hock(int x, int y){
-    miner_hook m;
-    char ore = '0';
+    char ore = '0'; 
     if (map[x][y] == 1) ore = 'w';  // wall
     else if(map[x][y] == 7) ore = 's';  // stone
     else if(map[x][y] == 8) ore = 'g';  // gold
@@ -30,7 +87,6 @@ char check_hock(int x, int y){
     return ore;
 }
 
-// 
 void generate_hock(int x, int y);
 
 void print_Map();
@@ -88,7 +144,7 @@ int move_hock_down_up(int x, int y){
     
     // hock downward
     while (check == '0'){
-        x ++;
+        x = 3 + x;
         epoch ++;
         generate_hock(x, y);
         print_Map();
@@ -98,6 +154,7 @@ int move_hock_down_up(int x, int y){
     // hock upward
     while (x != 9){
         num = move_ore(x, y);
+        generate_hock(x, y);
         epoch ++;
         print_Map();
     }
@@ -122,14 +179,39 @@ void move_miner(miner_hook &m){
     }
 }
 
+// stone: L: 50*2; M: 30*2; S: 10*2;
+// gold: L: 50*5; M: 30*5; S: 10*5;
+// diamond: 10*50;
 int calculate_reward(int num){
-    
+    int type, size;
+
+    if (gold[num].type == 's') type = 2;
+    else if (gold[num].type == 'g') type = 5;
+    else type = 50;
+
+    if (gold[num].size == 'L') size = 50;
+    else if (gold[num].size == 'M') size = 30;
+    else size = 10;
+
+    return type * size;
 }
 
 void play(bool get, miner_hook &m) {
     while (not get) {
         move_miner(m);
     }
-    move_hock_down_up(m.x, m.y);
-    
+    int num = move_hock_down_up(m.x, m.y);
+    reward = calculate_reward(num) + reward;
+}
+
+int main(){
+    while (epoch != 10000){
+        bool get;
+        init_miner_hock();
+        play(get, m);
+    }
+    /*
+    GAME OVER
+    YOUR REWARD IS...
+    */
 }
