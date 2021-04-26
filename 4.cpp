@@ -248,7 +248,7 @@ void print_Map(miner_hook &m, WINDOW *&win)
         }
     }
     
-    mvwprintw(win, 2, 50, "TIME: %d", 100-epoch);
+    mvwprintw(win, 2, 50, "TIME: %d", 180-epoch);
     mvwprintw(win, 3, 50, "SCORES: %d", reward);
     wrefresh(win);
 }
@@ -477,7 +477,7 @@ void play(miner_hook &m, WINDOW *&win)
     int sh;
     while ((sh = getch()) == ERR)
         startting(win);
-    while (epoch < 100)
+    while (epoch < 180)
     {
         while ((sh = getch()) == ERR)
         {
