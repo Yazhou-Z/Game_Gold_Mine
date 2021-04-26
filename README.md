@@ -47,8 +47,6 @@ struct Golds_ret
 
 ```
 
-
-
 #### Parameter explanation
 
 Map is an int array, shape is 60 * 70
@@ -63,7 +61,7 @@ Map is an int array, shape is 60 * 70
 | Nothing | 10   |
 | Wall    | 11   |
 
-### calculate_reward
+## Score
 
 `reward = size_reward * type_reward`
 
@@ -73,5 +71,58 @@ Map is an int array, shape is 60 * 70
 | Gold    | 10           | Medium | 30          |
 | Diamond | 50           | Large  | 50          |
 
+## Features
 
+#### Generate miner, hock and golds
+
+```cpp
+void generate_Map();
+void generate_miner(int x, int y, miner_hook &m);
+void init_minor(miner_hook m);
+void designGolds();
+void initGolds();
+```
+
+#### Print the whole map
+
+```cpp
+void print_Map(miner_hook &m, WINDOW *&win);
+```
+
+#### Downward the hock
+
+```cpp
+int launch_hook(miner_hook &m, WINDOW *&win);
+```
+
+#### Check the hock whether touch the wall or the golds
+
+```cpp
+int check_hook(miner_hook m);
+```
+
+#### Upward the hock and the golds together
+
+```cpp
+int move_ore(miner_hook &m, WINDOW *&win);
+```
+
+#### Move the miner horizontally, from left to right
+
+```cpp
+void move_miner(miner_hook &m, WINDOW *&win);
+```
+
+#### Calculate the score
+
+```cpp
+int calculate_reward(int id);
+```
+
+#### Load the window
+
+```cpp
+void startting(WINDOW *&win);
+void endding(WINDOW *&win);
+```
 
