@@ -253,7 +253,7 @@ int check_hook(miner_hook m)
 {
     int x = m.hook_catcher_x[0], y = m.hook_catcher_y[1];
     char ore = '0'; 
-    int num;
+    int num = 10;
     for(int i = 0; i < 3; i++){
         if (map[x][y + i] == 1) ore = 'w';  // wall
         else if(map[x][y + i] == 7) ore = 's';  // stone
@@ -280,7 +280,7 @@ int check_hook(miner_hook m)
             }
         }
     }
-    else num = 9; // diamond
+    else if (ore == 'd') num = 9; // diamond
     return num;
 }
 
@@ -334,6 +334,9 @@ int move_ore(miner_hook &m, WINDOW *& win)
 int launch_hook(miner_hook &m, WINDOW *&win)
 {
     int ore;
+    m.hook_length++;
+    generate_miner(m.miner_x, m.miner_y, m);
+    print_Map(m, win);
     while (check_hook(m) == 10)
     {
         m.hook_length++;
@@ -407,7 +410,7 @@ int main()
     box(win, 0, 0);
 
     miner_hook m;
-    m.hook_length = 2;
+    m.hook_length = 3;
     generate_miner(6, 4, m);
     designGolds();
     print_Map(m, win);
