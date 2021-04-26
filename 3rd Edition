@@ -180,16 +180,20 @@ void print_Map(miner_hook &m, WINDOW *&win)
     int begin = seconds;
     while ((seconds = time(NULL)))
     {
-        if (seconds - begin == 1000)
+        if (seconds - begin == 1)
             break;
     }
     epoch++;
+
     generate_Map();
+    generate_miner(m.miner_x, m.miner_y,m);
     init_minor(m);
     initGolds();
+
     box(win, 0, 0);
     refresh();
     wmove(win, 0, 0);
+
     for (int i = 0; i < 60; i++)
     {
         for (int j = 0; j < 70; j++)
@@ -244,48 +248,73 @@ void print_Map(miner_hook &m, WINDOW *&win)
     wrefresh(win);
 }
 
+
 int check_hook(miner_hook m)
 {
-    int ore = 0;
-    int x = m.hook_catcher_x[1], y = m.hook_catcher_y[1];
-    if (map[x][y] == 0) //nothing
-        ore = 10;
-    else if (map[x][y] == 1) //wall
-        ore = 11;
-    else // ore
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            if (gold[i].x <= x && x < gold[i].x + gold[i].size)
-                ore = gold[i].id;
+    int x = m.hook_catcher_x[0], y = m.hook_catcher_y[1];
+    char ore = '0'; 
+    int num;
+    for(int i = 0; i < 3; i++){
+        if (map[x][y + i] == 1) ore = 'w';  // wall
+        else if(map[x][y + i] == 7) ore = 's';  // stone
+        else if(map[x][y + i] == 8) ore = 'g';  // gold
+        else if(map[x][y + i] == 9) ore = 'd';  // diamond
+    }
+
+    if (ore == 'w'){
+        num = 11;
+    }
+
+    // get the ore information
+    else if (ore == 's'){
+        for (int i = 0; i < 10; i ++) {
+            if (gold[i].type == 's' && gold[i].x == x + 1) {
+                num = i;
+            }
         }
     }
-    return ore;
+    else if (ore == 'g'){
+        for (int i = 0; i < 10; i ++) {
+            if (gold[i].type == 'g' && gold[i].x == x + 1) {
+                num = i;
+            }
+        }
+    }
+    else num = 9; // diamond
+    return num;
 }
 
 int move_ore(miner_hook &m, WINDOW *& win)
 {
     int ore = check_hook(m);
-    while (m.hook_catcher_x[1] != 9)
+    while (m.hook_catcher_x[1] != 9)    //
     {
-        if (ore == 11)
+
+        if (ore == 11)      //  wall
         {
-            m.hook_length -= 6;
-            generate_miner(m.miner_x, m.miner_y, m);
+            for (int i = 0; i < 6; i ++){
+                m.hook_length -= 1;
+                generate_miner(m.miner_x, m.miner_y, m);
+            }
             print_Map(m, win);
         }
+
         else if (gold[ore].size == 2)
         {
-            m.hook_length -= 5;
-            gold[ore].x -= 5;
-            generate_miner(m.miner_x, m.miner_y, m);
+            for (int i = 0; i < 5; i ++){
+                m.hook_length -= 1;
+                gold[ore].x -= 1;
+                generate_miner(m.miner_x, m.miner_y, m);
+            }
             print_Map(m, win);
         }
         else if (gold[ore].size == 3)
         {
-            m.hook_length -= 3;
-            gold[ore].x -= 3;
-            generate_miner(m.miner_x, m.miner_y, m);
+            for (int i = 0; i < 3; i ++){
+                m.hook_length -= 1;
+                gold[ore].x -= 1;
+                generate_miner(m.miner_x, m.miner_y, m);
+            }
             print_Map(m, win);
         }
         else
@@ -304,17 +333,18 @@ int move_ore(miner_hook &m, WINDOW *& win)
 
 int launch_hook(miner_hook &m, WINDOW *&win)
 {
-    int value;
+    int ore;
     while (check_hook(m) == 10)
     {
         m.hook_length++;
         generate_miner(m.miner_x, m.miner_y, m);
         print_Map(m, win);
     }
-    value = move_ore(m, win);
-    return value;
+    ore = move_ore(m, win);     // upward
+    return ore;
 }
 
+// move miner horizontally
 void move_miner(miner_hook &m, WINDOW *&win)
 {
     if (m.miner_y == 57)
@@ -361,7 +391,8 @@ void play(miner_hook &m, WINDOW *&win)
         {
             move_miner(m, win);
         }
-        launch_hook(m, win);
+        int ore = launch_hook(m, win);
+        reward += calculate_reward(ore);
     }
 }
 
@@ -374,14 +405,14 @@ int main()
     WINDOW *win = newwin(60, 70, 0, 0);
     refresh();
     box(win, 0, 0);
+
     miner_hook m;
     m.hook_length = 2;
     generate_miner(6, 4, m);
     designGolds();
     print_Map(m, win);
-    wrefresh(win);
+
     play(m, win);
-    int sh = getch();
-    endwin();
+    //endwin();
     return 0;
 }
