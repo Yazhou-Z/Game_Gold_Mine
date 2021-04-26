@@ -175,6 +175,8 @@ void initGolds()
 
 void print_Map(miner_hook &m, WINDOW *&win)
 {
+    if (epoch >= 100)
+        return;
     time_t seconds;
     seconds = time(NULL);
     int begin = seconds;
@@ -245,9 +247,12 @@ void print_Map(miner_hook &m, WINDOW *&win)
             }
         }
     }
+    
+    mvwprintw(win, 2, 50, "TIME: %d", 100-epoch);
+    mvwprintw(win, 3, 50, "SCORES: %d", reward);
     wrefresh(win);
 }
-
+ 
 int check_hook(miner_hook m)
 {
     int x = m.hook_catcher_x[0], y = m.hook_catcher_y[1];
@@ -275,7 +280,7 @@ int check_hook(miner_hook m)
     {
         for (int i = 0; i < 10; i++)
         {
-            if (gold[i].type == 's' && gold[i].x == x + 1 && (gold[i].y == y || gold[i].y == y + 1|| gold[i].y == y - 1))
+            if (gold[i].type == 's' && gold[i].x == x + 1 && (gold[i].y == y || gold[i].y == y + 1 || gold[i].y == y - 1))
             {
                 num = i;
             }
@@ -285,7 +290,7 @@ int check_hook(miner_hook m)
     {
         for (int i = 0; i < 10; i++)
         {
-            if (gold[i].type == 'g' && gold[i].x == x + 1 && (gold[i].y == y || gold[i].y == y + 1|| gold[i].y == y - 1))
+            if (gold[i].type == 'g' && gold[i].x == x + 1 && (gold[i].y == y || gold[i].y == y + 1 || gold[i].y == y - 1))
             {
                 num = i;
             }
@@ -315,11 +320,15 @@ int move_ore(miner_hook &m, WINDOW *&win)
         else if (gold[ore].size == 2)
         {
             if (m.hook_length - 5 >= 2)
-                {m.hook_length -= 5;
-                gold[ore].x -= 5;}
+            {
+                m.hook_length -= 5;
+                gold[ore].x -= 5;
+            }
             else
-                {m.hook_length = 2;
-                gold[ore].x = 3;}
+            {
+                m.hook_length = 2;
+                gold[ore].x = 3;
+            }
             generate_miner(m.miner_x, m.miner_y, m);
             print_Map(m, win);
         }
@@ -406,10 +415,69 @@ int calculate_reward(int id)
     return type * size;
 }
 
+void startting(WINDOW *&win)
+{
+    generate_Map();
+    box(win, 0, 0);
+    refresh();
+    wmove(win, 0, 0);
+
+    for (int i = 0; i < 60; i++)
+    {
+        for (int j = 0; j < 70; j++)
+        {
+            if (map[i][j] == 0)
+            {
+                wmove(win, i, j);
+                waddch(win, 32);
+            }
+            else if (map[i][j] == 1)
+            {
+                wmove(win, i, j);
+                waddch(win, 35);
+            }
+        }
+    }
+    mvwprintw(win, 4, 24, "PRESS ANY KEY TO START");
+    wrefresh(win);
+}
+
+void endding(WINDOW *&win)
+{
+    generate_Map();
+    box(win, 0, 0);
+    refresh();
+    wmove(win, 0, 0);
+
+    for (int i = 0; i < 60; i++)
+    {
+        for (int j = 0; j < 70; j++)
+        {
+            if (map[i][j] == 0)
+            {
+                wmove(win, i, j);
+                waddch(win, 32);
+            }
+            else if (map[i][j] == 1)
+            {
+                wmove(win, i, j);
+                waddch(win, 35);
+            }
+        }
+    }
+
+
+    mvwprintw(win, 4, 30, "GAME OVER");
+    mvwprintw(win, 5, 27, "YOUR SCORES: %d", reward);
+    wrefresh(win);
+}
+
 void play(miner_hook &m, WINDOW *&win)
 {
     int sh;
-    while (epoch < 1000000)
+    while ((sh = getch()) == ERR)
+        startting(win);
+    while (epoch < 100)
     {
         while ((sh = getch()) == ERR)
         {
@@ -418,6 +486,8 @@ void play(miner_hook &m, WINDOW *&win)
         int ore = launch_hook(m, win);
         reward += calculate_reward(ore);
     }
+    endding(win);
+    sh = getch();
 }
 
 int main()
@@ -437,6 +507,6 @@ int main()
     print_Map(m, win);
 
     play(m, win);
-    //endwin();
+    endwin();
     return 0;
 }
