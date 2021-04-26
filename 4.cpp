@@ -175,7 +175,7 @@ void initGolds()
 
 void print_Map(miner_hook &m, WINDOW *&win)
 {
-    if (epoch >= 100)
+    if (epoch >= 180)
         return;
     time_t seconds;
     seconds = time(NULL);
