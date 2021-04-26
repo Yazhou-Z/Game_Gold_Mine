@@ -25,7 +25,7 @@ GOLD MINE is a game for one player. Players will control miniature miners who tr
 4.Different ore has different getting speed and reward.
 
 ## Map
-
+~/ENGG1340_group_project/blob/main/outputWindow.png
 Map is printed every second.
 
 #### Golds
