@@ -42,7 +42,7 @@ GOLD MINE is a game for one player. Players will control miniature miners who tr
 
 Map is printed every second.
 
-![outputWindow](/Users/xiaoyun/Desktop/outputWindow.png)
+<img width="512" alt="outputWindow" src="https://user-images.githubusercontent.com/76484768/116105861-4d9fba80-a6e4-11eb-82bb-6aebd2b40e22.png">
 
 #### Golds
 
