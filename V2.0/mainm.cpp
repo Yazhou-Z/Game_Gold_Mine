@@ -23,7 +23,11 @@ void generate_Map()
         }
     }
 }
-
+/*
+Create or refresh the miner_hook variable according to the coordinate of the miner's head and the length of the hook
+Input the coordinate, the length and variable m
+No output
+*/
 void generate_miner(int x, int y, miner_hook &m)
 {
     m.miner_x = x;
@@ -43,7 +47,11 @@ void generate_miner(int x, int y, miner_hook &m)
     m.hook_catcher_x[2] = m.hook_catcher_x[1];
     m.hook_catcher_y[2] = m.hook_catcher_y[1] + 1;
 }
-
+/*
+Push the miner_hook variable to map
+Input variable m
+No output
+*/
 void init_minor(miner_hook m)
 {
     map[m.miner_x][m.miner_y] = 2;
@@ -60,7 +68,11 @@ void init_minor(miner_hook m)
     map[m.hook_catcher_x[1]][m.hook_catcher_y[1]] = 4;
     map[m.hook_catcher_x[2]][m.hook_catcher_y[2]] = 5;
 }
-
+/*
+Create 10 mines
+No input
+No output
+*/
 void designGolds()
 {
     for (int i = 0; i < 10; i++)
@@ -87,7 +99,11 @@ void designGolds()
         gold[i].y = i % 3 * 17 + n % 2 * 15 + 15;
     }
 }
-
+/*
+Push the mines into the map
+No input
+No output
+*/
 void initGolds()
 {
     for (int i = 0; i < 10; i++)
@@ -139,10 +155,14 @@ void initGolds()
         }
     }
 }
-
+/*
+Regenerate
+Input miner_hook variable m and window variable win
+Output a window that show the map
+*/
 void print_Map(miner_hook &m, WINDOW *&win)
 {
-    if (epoch >= 180)
+    if (epoch >= 120)
         return;
     time_t seconds;
     seconds = time(NULL);
@@ -215,11 +235,15 @@ void print_Map(miner_hook &m, WINDOW *&win)
         }
     }
     
-    mvwprintw(win, 2, 50, "TIME: %d", 180-epoch);
+    mvwprintw(win, 2, 50, "TIME: %d", 120-epoch);
     mvwprintw(win, 3, 50, "SCORES: %d", reward);
     wrefresh(win);
 }
-
+/*
+Check whether the hook has touched a mine or wall or nothing
+Input the miner_hook variable
+Output an integer. 0-9 is the id of the mine, 10 is empty and 11 is the wall
+*/
 int check_hook(miner_hook m)
 {
     int x = m.hook_catcher_x[0], y = m.hook_catcher_y[1];
@@ -267,7 +291,11 @@ int check_hook(miner_hook m)
         num = 9; // diamond
     return num;
 }
-
+/*
+Move the ore with the hook
+Input m,win
+Output print map
+*/
 int move_ore(miner_hook &m, WINDOW *&win)
 {
     int ore = check_hook(m);
@@ -327,7 +355,11 @@ int move_ore(miner_hook &m, WINDOW *&win)
     print_Map(m, win);
     return ore;
 }
-
+/*
+Shoot the hook downward, return the id of the ore
+Input m, win
+Output an interger
+*/
 int launch_hook(miner_hook &m, WINDOW *&win)
 {
     int ore;
@@ -343,11 +375,14 @@ int launch_hook(miner_hook &m, WINDOW *&win)
     ore = move_ore(m, win); // upward
     return ore;
 }
-
-// move miner horizontally
+/*
+Move the miner horizontally the get no command from the player, show the refreshed map in the window
+Input window variable win
+Output in the terminal
+*/
 void move_miner(miner_hook &m, WINDOW *&win)
 {
-    if (m.miner_y == 59)
+    if (m.miner_y == 69)
     {
         m.miner_y = 4;
         generate_miner(m.miner_x, m.miner_y, m);
@@ -381,7 +416,11 @@ int calculate_reward(int id)
 
     return type * size;
 }
-
+/*
+Show the starting table
+Input window variable win
+Output in the terminal
+*/
 void startting(WINDOW *&win)
 {
     generate_Map();
@@ -408,7 +447,11 @@ void startting(WINDOW *&win)
     mvwprintw(win, 4, 24, "PRESS ANY KEY TO START");
     wrefresh(win);
 }
-
+/*
+Show the ending table
+Input window variable win
+Output in the terminal
+*/
 void endding(WINDOW *&win)
 {
     generate_Map();
@@ -433,30 +476,28 @@ void endding(WINDOW *&win)
         }
     }
 
-
     mvwprintw(win, 4, 30, "GAME OVER");
     mvwprintw(win, 5, 27, "YOUR SCORES: %d", reward);
     wrefresh(win);
 }
 
-
 void play(miner_hook &m, WINDOW *&win)
+{
+    int sh;
+    while ((sh = getch()) == ERR)
+        startting(win);
+    while (epoch < 120)
     {
-        int sh;
         while ((sh = getch()) == ERR)
-            startting(win);
-        while (epoch < 180)
         {
-            while ((sh = getch()) == ERR)
-            {
-                move_miner(m, win);
-            }
-            int ore = launch_hook(m, win);
-            reward += calculate_reward(ore);
+            move_miner(m, win);
         }
-        endding(win);
-        sh = getch();
+        int ore = launch_hook(m, win);
+        reward += calculate_reward(ore);
     }
+    endding(win);
+    sh = getch();
+}
 
 int main()
 {
@@ -478,4 +519,5 @@ int main()
     endwin();
     return 0;
 }
+
 
