@@ -6,7 +6,11 @@
 #include <random>
 #include "parts.h"
 using namespace std;
-
+/*
+Generate a random number
+No input
+Output an integer
+*/
 int Random_generator()
 {
     random_device rd;
