@@ -6,9 +6,9 @@
 #include <random>
 using namespace std;
 
-    int map[60][70];
-    int miner_x, miner_y;
-    const int MAX = 10;
+int map[60][70];
+int miner_x, miner_y;
+const int MAX = 10;
 int epoch = 0;
 int reward = 0;
 

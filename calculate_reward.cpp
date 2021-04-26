@@ -1,8 +1,11 @@
 // calculate_reward.cpp
 #include <iostream>
 #include "calculate_reward.h"
-#include ""
+#include "gold.h"
 using namespace std;
+
+const int MAX = 10;
+Golds_ret gold[MAX];
 
 int calculate_reward(int id)
 {
