@@ -501,8 +501,8 @@ void play(miner_hook &m, WINDOW *&win)
         int ore = launch_hook(m, win);      // the num of the ore
         reward += calculate_reward(ore);
     }
-    endding(win);      
-    sh = getch();
+    while ((sh = getch()) == ERR)
+        endding(win);      
 }
 
 int main()
