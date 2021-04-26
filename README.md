@@ -1,5 +1,19 @@
 # ENGG1340_Group_172
 
+[Team member](#Team_Member)
+
+[Game description](#Game_description)
+
+[Game rule](#Game_rules)
+
+[Features](#Features) 
+
+[Non-standard C/C++ libraries](#Non-standard_C/C++libraries)
+
+[Compliation](#Compliation)
+
+Addition explanation [Map](#Map)  [Score](#Score)
+
 ## Team_Member
 
 Zhao Yazhou 3035772638 
@@ -25,9 +39,10 @@ GOLD MINE is a game for one player. Players will control miniature miners who tr
 4.Different ore has different getting speed and reward.
 
 ## Map
-<img width="512" alt="outputWindow" src="https://user-images.githubusercontent.com/76484768/116105861-4d9fba80-a6e4-11eb-82bb-6aebd2b40e22.png">
 
 Map is printed every second.
+
+![outputWindow](/Users/xiaoyun/Desktop/outputWindow.png)
 
 #### Golds
 
@@ -122,8 +137,45 @@ int calculate_reward(int id);
 
 #### Load the window
 
-```cpp
+We use <curses.h> to print a window. 
+
+```c++
+#include <curses.h>
 void startting(WINDOW *&win);
 void endding(WINDOW *&win);
 ```
 
+## Non-standard_C/C++libraries
+
+###  <curses.h>
+
+Print a window, get input from the player.
+
+```cpp
+void print_Map(miner_hook &m, WINDOW *&win);
+void startting(WINDOW *&win);
+void endding(WINDOW *&win);
+void play(miner_hook &m, WINDOW *&win);
+```
+
+## Compliation
+
+To compile
+
+```
+$ make
+```
+
+To run
+
+```
+$ ./Main
+```
+
+To clean
+
+```
+$ make clean
+```
+
+### 
