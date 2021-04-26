@@ -382,7 +382,7 @@ Output in the terminal
 */
 void move_miner(miner_hook &m, WINDOW *&win)
 {
-    if (m.miner_y == 69)
+    if (m.miner_y == 59)    // if the miner comes to the right
     {
         m.miner_y = 4;
         generate_miner(m.miner_x, m.miner_y, m);
@@ -390,11 +390,15 @@ void move_miner(miner_hook &m, WINDOW *&win)
     }
     else
     {
-        m.miner_y++;
+        m.miner_y++;        // move the miner from left to the right step by step
         generate_miner(m.miner_x, m.miner_y, m);
         print_Map(m, win);
     }
 }
+
+// Input: the id of the ore
+// Output: the reward the miner will get
+// Function: calculate reward according to the type and the size of the ore.
 
 int calculate_reward(int id)
 {
@@ -481,26 +485,29 @@ void endding(WINDOW *&win)
     wrefresh(win);
 }
 
+// Input: from the player
+// Function: the whole round
 void play(miner_hook &m, WINDOW *&win)
 {
     int sh;
-    while ((sh = getch()) == ERR)
+    while ((sh = getch()) == ERR)   // no input
         startting(win);
-    while (epoch < 120)
+    while (epoch < 180)
     {
-        while ((sh = getch()) == ERR)
+        while ((sh = getch()) == ERR) 
         {
-            move_miner(m, win);
+            move_miner(m, win);     // move the miner horizontally
         }
-        int ore = launch_hook(m, win);
+        int ore = launch_hook(m, win);      // the num of the ore
         reward += calculate_reward(ore);
     }
-    endding(win);
+    endding(win);      
     sh = getch();
 }
 
 int main()
 {
+    // loading window
     initscr();
     noecho();
     cbreak();
@@ -508,13 +515,13 @@ int main()
     WINDOW *win = newwin(60, 70, 0, 0);
     refresh();
     box(win, 0, 0);
-
+    // init map and character
     miner_hook m;
     m.hook_length = 3;
     generate_miner(6, 4, m);
     designGolds();
     print_Map(m, win);
-
+    // play
     play(m, win);
     endwin();
     return 0;
