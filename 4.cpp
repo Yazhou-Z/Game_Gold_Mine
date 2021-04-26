@@ -253,15 +253,15 @@ int check_hook(miner_hook m)
     int x = m.hook_catcher_x[0], y = m.hook_catcher_y[1];
     char ore = '0';
     int num = 10;
-    for (int i = -1; i < 1; i++)
+    for (int i = -1; i < 2; i++)
     {
-        if (map[x][y + i] == 1)
+        if (map[x + 1][y + i] == 1)
             ore = 'w'; // wall
-        else if (map[x][y + i] == 7)
+        else if (map[x + 1][y + i] == 7)
             ore = 's'; // stone
-        else if (map[x][y + i] == 8)
+        else if (map[x + 1][y + i] == 8)
             ore = 'g'; // gold
-        else if (map[x][y + i] == 9)
+        else if (map[x + 1][y + i] == 9)
             ore = 'd'; // diamond
     }
 
@@ -275,7 +275,7 @@ int check_hook(miner_hook m)
     {
         for (int i = 0; i < 10; i++)
         {
-            if (gold[i].type == 's' && gold[i].x == x + 1)
+            if (gold[i].type == 's' && gold[i].x == x + 1 && (gold[i].y == y || gold[i].y == y + 1|| gold[i].y == y - 1))
             {
                 num = i;
             }
@@ -285,7 +285,7 @@ int check_hook(miner_hook m)
     {
         for (int i = 0; i < 10; i++)
         {
-            if (gold[i].type == 'g' && gold[i].x == x + 1)
+            if (gold[i].type == 'g' && gold[i].x == x + 1 && (gold[i].y == y || gold[i].y == y + 1|| gold[i].y == y - 1))
             {
                 num = i;
             }
@@ -360,7 +360,7 @@ int launch_hook(miner_hook &m, WINDOW *&win)
     print_Map(m, win);
     while (check_hook(m) == 10)
     {
-        m.hook_length += 2;
+        m.hook_length += 1;
         generate_miner(m.miner_x, m.miner_y, m);
         print_Map(m, win);
     }
@@ -371,7 +371,7 @@ int launch_hook(miner_hook &m, WINDOW *&win)
 // move miner horizontally
 void move_miner(miner_hook &m, WINDOW *&win)
 {
-    if (m.miner_y == 57)
+    if (m.miner_y == 59)
     {
         m.miner_y = 4;
         generate_miner(m.miner_x, m.miner_y, m);
