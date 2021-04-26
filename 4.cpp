@@ -186,7 +186,7 @@ void print_Map(miner_hook &m, WINDOW *&win)
     epoch++;
 
     generate_Map();
-    generate_miner(m.miner_x, m.miner_y,m);
+    generate_miner(m.miner_x, m.miner_y, m);
     init_minor(m);
     initGolds();
 
@@ -248,73 +248,94 @@ void print_Map(miner_hook &m, WINDOW *&win)
     wrefresh(win);
 }
 
-
 int check_hook(miner_hook m)
 {
     int x = m.hook_catcher_x[0], y = m.hook_catcher_y[1];
-    char ore = '0'; 
+    char ore = '0';
     int num = 10;
-    for(int i = 0; i < 3; i++){
-        if (map[x][y + i] == 1) ore = 'w';  // wall
-        else if(map[x][y + i] == 7) ore = 's';  // stone
-        else if(map[x][y + i] == 8) ore = 'g';  // gold
-        else if(map[x][y + i] == 9) ore = 'd';  // diamond
+    for (int i = -1; i < 1; i++)
+    {
+        if (map[x][y + i] == 1)
+            ore = 'w'; // wall
+        else if (map[x][y + i] == 7)
+            ore = 's'; // stone
+        else if (map[x][y + i] == 8)
+            ore = 'g'; // gold
+        else if (map[x][y + i] == 9)
+            ore = 'd'; // diamond
     }
 
-    if (ore == 'w'){
+    if (ore == 'w')
+    {
         num = 11;
     }
 
     // get the ore information
-    else if (ore == 's'){
-        for (int i = 0; i < 10; i ++) {
-            if (gold[i].type == 's' && gold[i].x == x + 1) {
+    else if (ore == 's')
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            if (gold[i].type == 's' && gold[i].x == x + 1)
+            {
                 num = i;
             }
         }
     }
-    else if (ore == 'g'){
-        for (int i = 0; i < 10; i ++) {
-            if (gold[i].type == 'g' && gold[i].x == x + 1) {
+    else if (ore == 'g')
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            if (gold[i].type == 'g' && gold[i].x == x + 1)
+            {
                 num = i;
             }
         }
     }
-    else if (ore == 'd') num = 9; // diamond
+    else if (ore == 'd')
+        num = 9; // diamond
     return num;
 }
 
-int move_ore(miner_hook &m, WINDOW *& win)
+int move_ore(miner_hook &m, WINDOW *&win)
 {
     int ore = check_hook(m);
-    while (m.hook_catcher_x[1] != 9)    //
+    while (m.hook_catcher_x[1] != 9) //
     {
 
-        if (ore == 11)      //  wall
+        if (ore == 11) //  wall
         {
-            for (int i = 0; i < 6; i ++){
-                m.hook_length -= 1;
-                generate_miner(m.miner_x, m.miner_y, m);
-            }
+            if (m.hook_length - 6 >= 2)
+                m.hook_length -= 6;
+            else
+                m.hook_length = 2;
+            generate_miner(m.miner_x, m.miner_y, m);
             print_Map(m, win);
         }
 
         else if (gold[ore].size == 2)
         {
-            for (int i = 0; i < 5; i ++){
-                m.hook_length -= 1;
-                gold[ore].x -= 1;
-                generate_miner(m.miner_x, m.miner_y, m);
-            }
+            if (m.hook_length - 5 >= 2)
+                {m.hook_length -= 5;
+                gold[ore].x -= 5;}
+            else
+                {m.hook_length = 2;
+                gold[ore].x = 3;}
+            generate_miner(m.miner_x, m.miner_y, m);
             print_Map(m, win);
         }
         else if (gold[ore].size == 3)
         {
-            for (int i = 0; i < 3; i ++){
-                m.hook_length -= 1;
-                gold[ore].x -= 1;
-                generate_miner(m.miner_x, m.miner_y, m);
+            if (m.hook_length - 3 >= 2)
+            {
+                m.hook_length -= 3;
+                gold[ore].x -= 3;
             }
+            else
+            {
+                m.hook_length = 2;
+                gold[ore].x = 3;
+            }
+            generate_miner(m.miner_x, m.miner_y, m);
             print_Map(m, win);
         }
         else
@@ -339,11 +360,11 @@ int launch_hook(miner_hook &m, WINDOW *&win)
     print_Map(m, win);
     while (check_hook(m) == 10)
     {
-        m.hook_length++;
+        m.hook_length += 2;
         generate_miner(m.miner_x, m.miner_y, m);
         print_Map(m, win);
     }
-    ore = move_ore(m, win);     // upward
+    ore = move_ore(m, win); // upward
     return ore;
 }
 
