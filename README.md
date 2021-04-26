@@ -163,13 +163,13 @@ void play(miner_hook &m, WINDOW *&win);
 To compile
 
 ```
-$ make
+$ make all
 ```
 
 To run
 
 ```
-$ ./Main
+$ ./mainm
 ```
 
 To clean
