@@ -8,7 +8,7 @@
 
 [Features](#Features) 
 
-[Non-standard C/C++ libraries](#Non-standard_C/C++libraries)
+[Non-standard C/C++ libraries](#Non_standard_libraries)
 
 [Compliation](#Compliation)
 
@@ -42,7 +42,7 @@ GOLD MINE is a game for one player. Players will control miniature miners who tr
 
 Map is printed every second.
 
-<img width="512" alt="outputWindow" src="https://user-images.githubusercontent.com/76484768/116105861-4d9fba80-a6e4-11eb-82bb-6aebd2b40e22.png">
+![outputWindow](/Users/xiaoyun/Desktop/outputWindow.png)
 
 #### Golds
 
@@ -145,7 +145,7 @@ void startting(WINDOW *&win);
 void endding(WINDOW *&win);
 ```
 
-## Non-standard_C/C++libraries
+## Non_standard_libraries
 
 ###  <curses.h>
 
