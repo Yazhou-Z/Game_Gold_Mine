@@ -1,17 +1,22 @@
-FLAGS = -pedantic-errors -std=c++11 -lncurses
-
-all : mainm
+FLAGS = -pedantic-errors -std=c++11 -lncurses -I ~/local/include -I ~/local/include/ncurses -L ~/local/lib
 
 parts.o: parts.cpp parts.h
-	g++ -c parts.cpp -o parts.o
+	g++ $(FLAGS) -lncurses $< -g -c -o $@
 
-mainm.o: mainm.cpp parts.h
-	g++ -c mainm.cpp -o mainm.o
+mainm.o: mainm.cpp mainm.h
+	g++ $(FLAGS) -lncurses $< -g -c -o $@
 
 mainm: mainm.o parts.o
-	g++ $(FLAGS) mainm.o parts.o -o mainm
+	g++ $(FLAGS) $^ -lncurses -g -o $@
 
+ncurses: 
+	@chmod +x get.sh
+	@./get.sh
+all:
+	@make clean
+	@make mainm
+	@echo "Run the game with \`mainm`"
 clean:
-	rm *.o mainm
+	rm *.o mainm -rf
 
-.PHONE: clean
+.PHONE: clean ncurses
