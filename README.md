@@ -1,4 +1,4 @@
-# ENGG1340_Group_172
+# Game: Gold Mine
 
 [Team member](#Team_Member)
 
